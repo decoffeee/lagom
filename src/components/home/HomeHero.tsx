@@ -39,7 +39,9 @@ export function HomeHero() {
         <div className="container hero-ct">
           <h1 className="hero-h1">
             <span className="block hero-line">
-              <span className="hero-l1 flicker">{home.hero.line1}</span>
+              <span className="hero-l1 flicker" style={{
+                fontWeight: 200
+              }}>{home.hero.line1}</span>
             </span>
             <span className="block hero-line">
               <span className="hero-l2 flicker">{home.hero.line2}</span>

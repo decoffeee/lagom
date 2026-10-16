@@ -1,11 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useState } from "react";
-import { airbnbUrl, allAmenities, guestFavorite, site, type Room } from "@/lib/site";
-import { CloseIcon, Icon, LaurelIcon } from "@/lib/icons";
+import { allAmenities, site, type Room } from "@/lib/site";
+import { CloseIcon, Icon } from "@/lib/icons";
 import { Popup } from "../Popup";
 
-/** Guest-favourite card, this room's amenities and the property-wide "view all amenities" popup. */
+/** Reviews link, this room's amenities and the property-wide "view all amenities" popup. */
 export function AmenitiesCard({ room }: { room: Room }) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
@@ -13,22 +14,9 @@ export function AmenitiesCard({ room }: { room: Room }) {
   const cols = [room.amenities.slice(0, half), room.amenities.slice(half)];
   return (
     <div className="block apart-cards">
-      <a className="gf-card magnetic" href={airbnbUrl} target="_blank" rel="noopener noreferrer" data-cursor-stick="">
-        <div className="gf-badge">
-          <LaurelIcon />
-          <div className="gf-badge-text">
-            Guest
-            <br />
-            favorite
-          </div>
-          <LaurelIcon flip />
-        </div>
-        <div className="gf-text">{guestFavorite.text}</div>
-        <div className="gf-rating">
-          <div className="gf-rating-nb">{guestFavorite.rating}</div>
-          <div className="gf-rating-lb">stars</div>
-        </div>
-      </a>
+      <Link href="/reviews/" className="all-amen-btn gf-reviews-btn">
+        Read guest reviews
+      </Link>
       <div className="block">
         <div className="block amen-card">
           {cols.map((col, i) => (

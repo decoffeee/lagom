@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { RoomHero } from "@/components/room/RoomHero";
 import { GalleryPreview } from "@/components/room/GalleryPreview";
 import { AmenitiesCard } from "@/components/room/AmenitiesCard";
+import { RoomLayouts } from "@/components/room/RoomLayouts";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -70,6 +71,8 @@ export default async function RoomPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      <RoomLayouts room={room} />
 
       <section className="section apart-text-sc">
         <div className="container two-col">

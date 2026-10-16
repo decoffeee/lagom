@@ -1,8 +1,8 @@
 import { site } from "@/lib/site";
 import { WhatsAppIcon } from "@/lib/icons";
 
-/** mail / phone / WhatsApp / social — used in the menu and the footer. */
-export function ContactInfo({ className = "" }: { className?: string }) {
+/** mail / phone / WhatsApp / social (+ location) — used in the menu and the footer. */
+export function ContactInfo({ className = "", location = false }: { className?: string; location?: boolean }) {
   return (
     <div className={`block ${className}`.trim()}>
       <div className="block">
@@ -30,6 +30,14 @@ export function ContactInfo({ className = "" }: { className?: string }) {
           facebook
         </a>
       </div>
+      {location && (
+        <div className="block">
+          <div className="info-label">location</div>
+          <a className="info-link info-address" href={site.mapsUrl} target="_blank" rel="noopener noreferrer">
+            {site.area}, Nepal
+          </a>
+        </div>
+      )}
     </div>
   );
 }

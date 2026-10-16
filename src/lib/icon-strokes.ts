@@ -1,5 +1,7 @@
 /** Simple stroke-based icons (24x24) for amenities that have no icon in the fill set. */
 export const STROKE_ICONS = {
+  plane: ["M12 2.5a1.5 1.5 0 0 1 1.5 1.5v6l8 4.5v2l-8-2.5v4.5l2.5 2V22L12 21l-4 1v-1.5l2.5-2V14l-8 2.5v-2l8-4.5V4A1.5 1.5 0 0 1 12 2.5z"],
+  compass: ["M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z", "M15.5 8.5l-2 5-5 2 2-5 5-2z"],
   car: ["M3 14l1.6-4.8A2 2 0 0 1 6.5 8h11a2 2 0 0 1 1.9 1.2L21 14v5h-2.5v-2h-13v2H3v-5z", "M3 14h18", "M7 16.5h.01M17 16.5h.01"],
   parking: ["M5 3h14v18H5z", "M9.5 16.5V7.5h3.5a2.5 2.5 0 0 1 0 5H9.5"],
   laptop: ["M4 6h16v10H4z", "M2 18.5h20"],

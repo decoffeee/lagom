@@ -18,6 +18,7 @@ import logo from "@/images/logo.png";
 export function Header() {
   const [open, setOpen] = useState(false);
   const [accOpen, setAccOpen] = useState(false);
+  const [atTop, setAtTop] = useState(true);
   const pathname = usePathname();
   const offcanvas = useRef<HTMLElement>(null);
   const tl = useRef<gsap.core.Timeline | null>(null);
@@ -62,6 +63,14 @@ export function Header() {
       lockScroll(false);
     }
   }, [open]);
+
+  // The "Lagom Airbnb" title only shows over the hero; it fades out once the page is scrolled.
+  useEffect(() => {
+    const onScroll = () => setAtTop(window.scrollY < 50);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Close when a menu link is followed (event delegation keeps this out of effects).
   const onMenuClick = useCallback((e: React.MouseEvent<HTMLElement>) => {
@@ -151,15 +160,6 @@ export function Header() {
           <div className="container header-ct">
             <div className="hd-menu">
               <SoundToggle />
-              <nav className="lang-menu" aria-label="Language">
-                <ul>
-                  <li className="current-lang">
-                    <a href={pathname} aria-current="true" hrefLang="en" lang="en" title="EN">
-                      EN
-                    </a>
-                  </li>
-                </ul>
-              </nav>
               <div className="burger">
                 <button
                   type="button"
@@ -186,7 +186,9 @@ export function Header() {
             <Link href="/" className="hd-logo magnetic" aria-label={`${site.name} — home`} data-cursor-stick="">
               <Image src={logo} alt="" className="hd-logo-img" sizes="64px" priority />
             </Link>
-            <div className="hd-title">Lagom Airbnb</div>
+            <div className={`hd-title ${atTop ? "" : "is-hidden"}`.trim()} aria-hidden={!atTop}>
+              Lagom Airbnb
+            </div>
           </div>
         </div>
       </header>

@@ -20,12 +20,12 @@ export const site = {
     "Lagom Airbnb (officially Lagom Premium Apartment Pvt. Ltd.) is a highly rated, highly aesthetic luxury service apartment complex in Kathmandu, Nepal, near the Swayambhunath Stupa (Monkey Temple). Pinterest-like wabi-sabi interiors, smart-tech rooms and an independent, upscale stay.",
   keywords: ["Lagom", "Lagom Premium Apartment", "Kathmandu Airbnb", "Kathmandu apartment", "Swayambhunath", "service apartment Kathmandu", "luxury stay Nepal", "wabi sabi", "presidential suite Kathmandu"],
   email: "lagomairbnb@gmail.com",
-  phone: "+977 98 0000 0000", // TODO
-  /** WhatsApp Business (@lagomairbnb) number, digits only in international format. TODO */
-  whatsapp: "9779800000000",
-  whatsappText: "Chat with us",
-  instagram: "https://www.instagram.com/lagomairbnb/", // TODO confirm handle
-  facebook: "https://www.facebook.com/lagomairbnb/", // TODO confirm handle
+  phone: "+977 9708097322",
+  /** WhatsApp Business (@lagomairbnb) number, digits only in international format. */
+  whatsapp: "9779708097322",
+  whatsappText: "Book your stay",
+  instagram: "https://www.instagram.com/lagom_airbnb/",
+  facebook: "https://www.facebook.com/p/Lagom-Airbnb-Nepal-61566543087073/",
   platforms: [
     { label: "airbnb", href: "https://www.airbnb.com/rooms/1286091822026294123?source_impression_id=p3_1792000384_P3toE1YIUfmXKqoD" },
     { label: "booking.com", href: "https://www.booking.com/hotel/np/lagom-premium-apartment.html?aid=356980&label=gog235jc-10CA0oqwFCF2xhZ29tLXByZW1pdW0tYXBhcnRtZW50SDNYA2irAYgBAZgBM7gBB8gBDNgBA-gBAfgBAYgCAagCAbgC1oO_1gbAAgHSAiQ0ZDhhNTE1Mi1kYTkwLTQwNjYtYmEwZC1mNTljNGI1MTZjMWbYAgHgAgE&came_from_hotel_review=1&keep_landing=1&sid=7653eb68f558a35273e7a8c6c0d35574" },
@@ -38,12 +38,11 @@ export const site = {
   area: "Near Swayambhunath Stupa (Monkey Temple), Nagarjun, Kathmandu",
   /** Google Maps search query for the embedded map. */
   mapQuery: "Lagom Premium Apartment Pvt Ltd Kathmandu",
+  /** Opens the property in Google Maps (footer "location" link). */
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Lagom+Premium+Apartment+Pvt+Ltd+Kathmandu",
   languages: ["English", "Hindi"],
-  credit: { label: "MADE BY MINTY.PROJECTS", href: "#" },
   copyright: "© 2026 Lagom Premium Apartment Pvt. Ltd. All rights reserved.",
 };
-
-export const airbnbUrl = site.platforms[0].href;
 
 export type NavItem = { label: string; href: string };
 
@@ -51,6 +50,7 @@ export const nav = {
   primary: [
     { label: "HOME", href: "/" },
     { label: "EXPERIENCES", href: "/experiences/" },
+    { label: "REVIEWS", href: "/reviews/" },
     { label: "CONTACT", href: "/contact/" },
   ] satisfies NavItem[],
   /** Accordion item (Nueve: RESIDENCES → Classic / Mini / Village) */
@@ -62,6 +62,7 @@ export const nav = {
   ] satisfies NavItem[],
   footer: [
     { label: "experiences", href: "/experiences/" },
+    { label: "reviews", href: "/reviews/" },
     { label: "book now", href: "/book/" },
     { label: "contact", href: "/contact/" },
     { label: "privacy", href: "/privacy-policy/" },
@@ -92,6 +93,11 @@ export type Room = {
   /** hero circle, gallery main, gallery grid (4) */
   images: { hero: ImageKey; main: ImageKey; grid: ImageKey[] };
   photoGroups: { id: string; title: string; text: string; images: ImageKey[] }[];
+  /** Named apartments of this type that differ only in bed setup. */
+  layouts?: { names: string[]; beds: string }[];
+  /** Portrait walkthrough video served from /public. */
+  /** Portrait walkthrough video served from /public; `caption` shows beside it when there are no layouts. */
+  video?: { src: string; poster: string; caption?: string };
 };
 
 const base = {
@@ -114,7 +120,7 @@ const base = {
   water: { icon: "bottle", label: "Free bottled water" },
 } satisfies Record<string, Amenity>;
 
-// TODO: confirm beds / bathrooms per room type; photos are shared interiors until each room is shot.
+// TODO: confirm beds / bathrooms per room type.
 export const rooms: Room[] = [
   {
     slug: "deluxe",
@@ -144,11 +150,12 @@ export const rooms: Room[] = [
       ],
     },
     amenities: [base.shuttle, base.travel, base.ac, base.hot, base.wifi, base.balcony, base.kettle, base.touch, base.tv, base.laundry, base.parking],
-    images: { hero: "lounge", main: "living", grid: ["bathroom", "kitchen", "living-portrait", "lounge"] },
+    images: { hero: "deluxe-4", main: "deluxe-1", grid: ["deluxe-5", "deluxe-2", "deluxe-3", "deluxe-6"] },
     photoGroups: [
-      { id: "bedroom", title: "bedroom.", text: "Warm plaster, linen and low light. A room that asks you to slow down.", images: ["lounge", "living-portrait"] },
-      { id: "balcony", title: "balcony.", text: "Morning coffee with the hills in view.", images: ["living", "bathroom"] },
+      { id: "bedroom", title: "bedroom.", text: "Warm plaster, linen and low light: a platform bed under a lit arch, a boucle chair and a desk with a kettle.", images: ["deluxe-1", "deluxe-2", "deluxe-3", "deluxe-4", "deluxe-5"] },
+      { id: "bath", title: "bath.", text: "A vessel basin on an oak vanity, brass taps and a walk-in shower in warm stone tones.", images: ["deluxe-6", "deluxe-7"] },
     ],
+    video: { src: "/rooms/deluxe/intro.mp4", poster: "/rooms/deluxe/intro-poster.jpg", caption: "Tap the card, open the door and step in: a short walk through the Deluxe Bedroom." },
   },
   {
     slug: "studio",
@@ -169,7 +176,7 @@ export const rooms: Room[] = [
     storyTitle: "compact",
     story: {
       left: [
-        "Everything in one calm, open room: a sunken seating corner, a round oak table and a kitchen you will actually use.",
+        "Everything in one calm, open room: a bed under a lit plaster arch, a round table for two and a kitchenette you will actually use.",
         "The Studio is made for travellers who want independence without giving up the comfort of a styled, serviced home.",
       ],
       right: [
@@ -178,11 +185,13 @@ export const rooms: Room[] = [
       ],
     },
     amenities: [base.shuttle, base.travel, base.ac, base.hot, base.kitchen, base.kitchenette, base.wifi, base.balcony, base.touch, base.tv, base.work, base.laundry],
-    images: { hero: "living", main: "living-portrait", grid: ["kitchen", "lounge", "bathroom", "living"] },
+    images: { hero: "studio-3", main: "studio-1", grid: ["studio-2", "studio-7", "studio-6", "studio-8"] },
     photoGroups: [
-      { id: "living", title: "living.", text: "A sunken lounge wrapped in textured plaster, with a round oak table and a soft rug.", images: ["living", "living-portrait", "lounge"] },
-      { id: "kitchen", title: "kitchen.", text: "An open kitchen with a brass hood, a gold fridge and stone counters.", images: ["kitchen", "living"] },
+      { id: "room", title: "room.", text: "A platform bed under a lit arch, a boucle chair by the desk, an arched wardrobe and a full-length mirror.", images: ["studio-1", "studio-2", "studio-3", "studio-4", "studio-5"] },
+      { id: "kitchen", title: "kitchen.", text: "A round table for two and a kitchenette with a brass hood, a gas hob and lit open shelves.", images: ["studio-6", "studio-7"] },
+      { id: "bath", title: "bath.", text: "A vessel basin on a rattan vanity and a rain shower in white wave tiles.", images: ["studio-8", "studio-9"] },
     ],
+    video: { src: "/rooms/studio/intro.mp4", poster: "/rooms/studio/intro-poster.jpg", caption: "From the door to the bed in one take: a short walk through the Studio." },
   },
   {
     slug: "1bk",
@@ -203,7 +212,7 @@ export const rooms: Room[] = [
     storyTitle: "spacious",
     story: {
       left: [
-        "A separate bedroom, a proper living room and a kitchen with everything from the kettle to the oven: the 1BK is a home, not a room.",
+        "A separate bedroom, a kitchen island set for two and a kitchen with everything from the kettle to the microwave: the 1BK is a home, not a room.",
         "Work from the laptop corner in the morning, cook in the evening, and let the city wait.",
       ],
       right: [
@@ -212,11 +221,13 @@ export const rooms: Room[] = [
       ],
     },
     amenities: [base.shuttle, base.travel, base.ac, base.hot, base.kitchen, base.kitchenette, base.wifi, base.touch, base.tv, base.work, base.laundry, base.parking],
-    images: { hero: "kitchen", main: "lounge", grid: ["living", "bathroom", "living-portrait", "kitchen"] },
+    images: { hero: "1bk-5", main: "1bk-1", grid: ["1bk-3", "1bk-2", "1bk-4", "1bk-6"] },
     photoGroups: [
-      { id: "living", title: "living.", text: "Low seating, warm light and room to spread out.", images: ["lounge", "living", "living-portrait"] },
-      { id: "kitchen", title: "kitchen.", text: "Fully equipped, from the gold fridge to the stone counters.", images: ["kitchen"] },
+      { id: "kitchen", title: "kitchen.", text: "Through the arch: a kitchen island with bar stools for two, lit niches and a fully equipped kitchen.", images: ["1bk-1", "1bk-2"] },
+      { id: "bedroom", title: "bedroom.", text: "A platform bed under a lit plaster arch, a boucle chair by the curtains and a terracotta jug in its niche.", images: ["1bk-3", "1bk-4", "1bk-5"] },
+      { id: "bath", title: "bath.", text: "An oval vessel basin on a rattan vanity and a brass rain shower.", images: ["1bk-6", "1bk-7"] },
     ],
+    video: { src: "/rooms/1bk/intro.mp4", poster: "/rooms/1bk/intro-poster.jpg", caption: "Unlock the door and walk through: kitchen, island and bedroom in under thirty seconds." },
   },
   {
     slug: "2bhk",
@@ -226,11 +237,11 @@ export const rooms: Room[] = [
     guests: "2–4",
     maxGuests: 4,
     intro: "Spacious with a fully equipped kitchen and a bathtub, ideal for families or small groups of up to four.",
-    metaDescription: "2BHK Airbnb at Lagom, Kathmandu: two bedrooms, a hall and a fully equipped kitchen for up to four guests, with bathtub, balcony, air conditioning and free Wi-Fi.",
+    metaDescription: "2BHK Airbnb at Lagom, Kathmandu: two bedrooms, a hall and a fully equipped kitchen for up to four guests, with two queen beds or a queen and two twins, a bathtub, balcony, air conditioning and free Wi-Fi.",
     specs: [
       { value: "2–4", label: "guests" },
       { value: "2", label: "bedrooms" },
-      { value: "2", label: "beds" },
+      { value: "2–3", label: "beds" },
       { value: "1", label: "bathroom" },
       { value: "full", label: "kitchen" },
     ],
@@ -238,20 +249,25 @@ export const rooms: Room[] = [
     story: {
       left: [
         "Two bedrooms, a hall to gather in and a kitchen big enough for a family breakfast: the 2BHK gives everyone their own corner of calm.",
-        "A bathtub for long evenings, a balcony for the morning, and the same wabi-sabi warmth in every room.",
+        "A freestanding bathtub on white pebbles for long evenings, a balcony for the morning, and the same wabi-sabi warmth in every room.",
       ],
       right: [
+        "Choose Wise, with two queen beds, or Adore and Happy, each with a queen bedroom and a twin room for friends or children.",
         "Air conditioning, hot water, a fully equipped kitchen and kitchenette, fast Wi-Fi and touch switches throughout.",
-        "Sleeps two in comfort and up to four for families or small groups.",
       ],
     },
     amenities: [base.shuttle, base.travel, base.ac, base.tub, base.hot, base.kitchen, base.kitchenette, base.wifi, base.balcony, base.touch, base.tv, base.laundry],
-    images: { hero: "bathroom", main: "lounge", grid: ["living", "kitchen", "living-portrait", "bathroom"] },
+    images: { hero: "2bhk-3", main: "2bhk-1", grid: ["2bhk-2", "2bhk-4", "2bhk-9", "2bhk-7"] },
     photoGroups: [
-      { id: "living", title: "living.", text: "The hall: sunken seating and a round table for four.", images: ["living", "lounge", "living-portrait"] },
-      { id: "bath", title: "bath.", text: "A freestanding tub on white pebbles, palms and bamboo pendants.", images: ["bathroom", "lounge"] },
-      { id: "kitchen", title: "kitchen.", text: "Everything you need to cook for the family.", images: ["kitchen", "living"] },
+      { id: "living", title: "living.", text: "The hall: built-in sofas, a round oak table for four and an open kitchen with a brass hood.", images: ["2bhk-1", "2bhk-2"] },
+      { id: "bath", title: "bath.", text: "A freestanding tub on white pebbles under three bamboo pendants, with an oak vanity and brass taps.", images: ["2bhk-3", "2bhk-4", "2bhk-5", "2bhk-6", "2bhk-7"] },
+      { id: "bedrooms", title: "bedrooms.", text: "A queen bedroom with a lounge chair, and in Adore and Happy a twin room with two beds.", images: ["2bhk-8", "2bhk-9", "2bhk-10"] },
     ],
+    layouts: [
+      { names: ["Wise"], beds: "2 queen beds" },
+      { names: ["Adore", "Happy"], beds: "1 queen bed + 2 twin beds" },
+    ],
+    video: { src: "/rooms/2bhk/intro.mp4", poster: "/rooms/2bhk/intro-poster.jpg" },
   },
   {
     slug: "presidential-suite",
@@ -282,12 +298,13 @@ export const rooms: Room[] = [
       ],
     },
     amenities: [base.shuttle, base.travel, base.ac, base.tub, base.hot, base.kitchen, base.kitchenette, base.wifi, base.balcony, base.curtains, base.touch, base.tv],
-    images: { hero: "bathroom", main: "lounge", grid: ["bathroom", "living", "kitchen", "living-portrait"] },
+    images: { hero: "presidential-2", main: "presidential-1", grid: ["presidential-4", "presidential-6", "presidential-9", "presidential-7"] },
     photoGroups: [
-      { id: "bath", title: "bath.", text: "A freestanding tub on a bed of white pebbles, brass fittings, palms and three bamboo pendants.", images: ["bathroom", "lounge"] },
-      { id: "living", title: "living.", text: "A sunken lounge with a round oak table and a soft rug.", images: ["living", "living-portrait", "lounge"] },
-      { id: "kitchen", title: "kitchen.", text: "An open kitchen with a brass hood, a gold fridge and stone counters.", images: ["kitchen"] },
+      { id: "bath", title: "bath.", text: "A freestanding tub on a bed of white pebbles, brass fittings, palms and three bamboo pendants.", images: ["presidential-1", "presidential-2", "presidential-3"] },
+      { id: "rooms", title: "rooms.", text: "A raised platform bed with glowing niches, a lounge under three arched curtains and a second room with its own beds and desk.", images: ["presidential-4", "presidential-5", "presidential-6", "presidential-7", "presidential-8"] },
+      { id: "kitchen", title: "kitchen.", text: "An oak dining table for two and an open kitchen with a brass hood and a gold fridge.", images: ["presidential-9", "presidential-10", "presidential-11"] },
     ],
+    video: { src: "/rooms/presidential-suite/intro.mp4", poster: "/rooms/presidential-suite/intro-poster.jpg", caption: "Arched windows, the platform bed and the bathtub beyond: a short walk through the Presidential Suite." },
   },
 ];
 
@@ -394,21 +411,14 @@ export const allAmenities: { group: string; items: Amenity[] }[] = [
   },
 ];
 
-export const guestFavorite = {
-  rating: "4,9", // TODO
-  text: "One of the most loved homes on Airbnb, according to guests",
-};
-
 /** Experiences page content lives in ./experiences.ts */
 
 export const contact = {
   title: "Contact",
-  metaDescription: "Contact Lagom Premium Apartment in Kathmandu with any question about your stay. We respond as soon as possible, also on WhatsApp.",
+  metaDescription: "Contact Lagom Premium Apartment in Kathmandu with any question about your stay. Send us a message on WhatsApp and we will reply as soon as possible.",
   intro: "Contact us with any questions. We are here to help you make your stay unforgettable.",
   consent: "I agree to provide the above information for communication purposes.",
-  submit: "Send Form",
-  or: "or",
-  whatsapp: "Send Message",
+  submit: "Send Message",
 };
 
 export const book = {

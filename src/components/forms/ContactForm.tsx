@@ -1,17 +1,33 @@
 "use client";
 
-import { useActionState } from "react";
-import { sendContact, type FormState } from "@/app/actions";
+import type { FormEvent } from "react";
 import { contact, site } from "@/lib/site";
 import { WhatsAppIcon } from "@/lib/icons";
 
-const initial: FormState = { ok: null, message: "" };
+const field = (fd: FormData, key: string) => String(fd.get(key) ?? "").trim();
+
+/** Turns the form into a pre-formatted WhatsApp message and opens the chat. */
+function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+  const fd = new FormData(e.currentTarget);
+  if (field(fd, "website")) return; // honeypot
+  const text = [
+    "Hi Lagom! I'd like to get in touch.",
+    "",
+    `*Name:* ${field(fd, "name")}`,
+    `*Email:* ${field(fd, "email")}`,
+    `*Phone:* ${field(fd, "phone")}`,
+    "",
+    "*Message:*",
+    field(fd, "message"),
+  ].join("\n");
+  window.open(`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+}
 
 export function ContactForm() {
-  const [state, action, pending] = useActionState(sendContact, initial);
   return (
     <div className="container contact-form flicker">
-      <form className="form" action={action} noValidate={false}>
+      <form className="form" onSubmit={handleSubmit}>
         <div className="form-group">
           <input type="text" name="name" placeholder="Full name*" required autoComplete="name" aria-label="Full name" />
         </div>
@@ -37,22 +53,13 @@ export function ContactForm() {
             Website <input type="text" name="website" tabIndex={-1} autoComplete="off" />
           </label>
         </div>
-        {state.message ? (
-          <div className={`form-message ${state.ok ? "is-ok" : "is-error"}`} role="status" aria-live="polite">
-            {state.message}
-          </div>
-        ) : null}
         <div className="form-group form-submit">
-          <button type="submit" className="form-btn" disabled={pending}>
-            {pending ? "Sending…" : contact.submit}
+          <button type="submit" className="wa-btn wa-btn--big">
+            <WhatsAppIcon size={30} />
+            {contact.submit}
           </button>
         </div>
       </form>
-      <div className="form-or">{contact.or}</div>
-      <a className="wa-btn wa-btn--big" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">
-        <WhatsAppIcon size={30} />
-        {contact.whatsapp}
-      </a>
     </div>
   );
 }

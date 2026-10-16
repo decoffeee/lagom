@@ -37,7 +37,7 @@ export function Loader() {
     const html = document.documentElement;
     html.classList.add("is-loading");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const duration = reduce ? 0.6 : 1;
+    const duration = reduce ? 0.6 : 1.75;
     const getX = () => wrapEl.offsetWidth - calcEl.offsetWidth;
 
     let finished = false;

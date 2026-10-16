@@ -34,23 +34,6 @@ async function deliver(subject: string, lines: Record<string, string>) {
   if (!res.ok) throw new Error(`Mail provider responded ${res.status}`);
 }
 
-export async function sendContact(_prev: FormState, fd: FormData): Promise<FormState> {
-  if (str(fd, "website")) return { ok: true, message: "Thank you, your message has been sent." }; // honeypot
-  const name = str(fd, "name", 120);
-  const email = str(fd, "email", 320);
-  const phone = str(fd, "phone", 40);
-  const message = str(fd, "message", 4000);
-  if (!name || !isEmail(email) || !phone || !message) return { ok: false, message: "Please fill in all required fields with valid details." };
-  if (fd.get("consent") !== "yes") return { ok: false, message: "Please agree to the processing of your details." };
-  try {
-    await deliver(`New message from ${name}`, { Name: name, Email: email, Phone: phone, Message: message });
-    return { ok: true, message: "Thank you, your message has been sent. We will reply shortly." };
-  } catch (e) {
-    console.error(e);
-    return { ok: false, message: "Something went wrong while sending. Please try again or message us on WhatsApp." };
-  }
-}
-
 export async function sendBooking(_prev: FormState, fd: FormData): Promise<FormState> {
   if (str(fd, "website")) return { ok: true, message: "Thank you, your request has been sent." };
   const residence = str(fd, "residence", 60);

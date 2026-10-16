@@ -9,7 +9,7 @@ import { useLoadTimeline } from "@/lib/animations";
  * a thin vertical line grows in, the title rises, the text fades in.
  * `variant="contact"` replays the Contact timeline (title drops from above, lines fade).
  */
-export function PageHero({ title, text, variant = "page", children }: { title: string; text: string; variant?: "page" | "contact"; children?: ReactNode }) {
+export function PageHero({ title, text, variant = "page", className = "", children }: { title: string; text: string; variant?: "page" | "contact"; className?: string; children?: ReactNode }) {
   const scope = useRef<HTMLElement>(null);
 
   useLoadTimeline(scope, (tl, q) => {
@@ -38,7 +38,7 @@ export function PageHero({ title, text, variant = "page", children }: { title: s
   });
 
   return (
-    <section ref={scope} className={`section page-hero ${variant === "contact" ? "form-sc" : ""}`.trim()}>
+    <section ref={scope} className={`section page-hero ${variant === "contact" ? "form-sc" : ""} ${className}`.trim()}>
       <div className="container page-hero-ct">
         <div className="v-line flicker" aria-hidden="true" />
         <div className="page-title-wrap">

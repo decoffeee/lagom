@@ -7,6 +7,7 @@
   --black: #000000;
   --white: #ffffff;
   --grey: #e0e0e0;
+  --cream: #f4f1ea;
   --line-12: rgba(0, 0, 0, 0.12);
   --line-21: rgba(0, 0, 0, 0.21);
   --line-08: rgba(0, 0, 0, 0.08);
@@ -395,6 +396,11 @@ main {
   white-space: nowrap;
   color: var(--brand);
   pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.hd-title.is-hidden {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% - 10px));
 }
 .hd-menu {
   margin-left: auto;
@@ -773,6 +779,11 @@ main {
   font-size: 18px;
   text-wrap: nowrap;
 }
+.info-address {
+  text-wrap: wrap;
+  max-width: 240px;
+  line-height: 1.4;
+}
 .wa-btn {
   display: inline-flex;
   align-items: center;
@@ -953,6 +964,16 @@ main {
   to {
     transform: translateY(0);
   }
+}
+
+/* The menu content starts hidden. The open timeline fades it in, and when the timeline is
+   reversed GSAP restores these pre-tween values, so nothing flashes visible before its turn. */
+.offcanvas .menu-title,
+.offcanvas .oc-contact,
+.offcanvas .oc-copy,
+.offcanvas .oc-images {
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* ---------- swap title (hover text slide) ---------- */
@@ -1646,30 +1667,6 @@ main {
   font-size: 12px;
   text-wrap: nowrap;
 }
-.ft-credit {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: auto;
-  padding: 10px 20px;
-  column-gap: 10px;
-  border: 1px solid #363636;
-  border-radius: 50px;
-  transition: all 0.5s ease;
-  color: var(--white);
-  font-size: 12px;
-  text-wrap: nowrap;
-}
-.ft-credit:hover {
-  background-color: #121212;
-  border-color: #121212;
-}
-.ft-credit svg {
-  width: 25px;
-  height: auto;
-  fill: var(--white);
-}
-
 /* marquee */
 .reel {
   position: relative;
@@ -1756,13 +1753,6 @@ main {
   .reel-b {
     font-size: 250px;
   }
-  .ft-credit {
-    padding: 8px 16px;
-    font-size: 10px;
-  }
-  .ft-credit svg {
-    width: 20px;
-  }
 }
 @media (max-width: 767px) {
   .ft-left {
@@ -1788,7 +1778,14 @@ main {
   }
 }
 @media (max-width: 479px) {
+  /* stacked columns outgrow a phone screen: let the footer grow and scroll instead of the sticky reveal */
+  #site-footer {
+    position: relative;
+  }
   .footer {
+    height: auto;
+    min-height: 100svh;
+    padding-top: 100px;
     padding-bottom: 50px;
   }
   .ft-left {
@@ -2084,61 +2081,6 @@ main {
   width: 45%;
   row-gap: 30px;
 }
-.gf-card {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  column-gap: 20px;
-  border: 2px solid var(--line-08);
-  border-radius: 25px;
-  padding: 25px;
-  width: 100%;
-  transition: border-color 0.4s ease;
-}
-.gf-card:hover {
-  border-color: var(--line-21);
-}
-.gf-badge {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  column-gap: 10px;
-  justify-content: center;
-  width: auto;
-}
-.gf-badge-text {
-  text-align: center;
-  font-weight: 700;
-  line-height: 1.2;
-  font-size: 16px;
-}
-.gf-text {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.3;
-  padding: 0 25px;
-}
-.gf-rating {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: auto;
-  row-gap: 5px;
-}
-.gf-rating-nb {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1;
-}
-.gf-rating-lb {
-  text-align: center;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1;
-}
 .amen-card {
   flex-direction: row;
   justify-content: flex-start;
@@ -2201,6 +2143,69 @@ main {
   border: 0;
   filter: invert(0.92) hue-rotate(180deg) saturate(0.2) brightness(0.9);
 }
+.apart-layouts {
+  align-items: center;
+}
+.apart-video {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--black);
+  align-self: center;
+}
+.two-col > .block.apart-video {
+  width: min(45%, calc(85vh * 9 / 16));
+}
+.apart-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.apart-video-btn {
+  cursor: pointer;
+}
+.apart-video-btn:hover {
+  background-color: var(--black);
+  color: var(--beige);
+}
+.apart-layouts-info {
+  row-gap: 40px;
+}
+.apart-layouts-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 100px;
+  line-height: 1;
+}
+.apart-layouts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  width: 100%;
+}
+.apart-layout {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  padding: 25px;
+  border: 2px solid var(--line-08);
+  border-radius: 25px;
+}
+.apart-layout-name {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.apart-layout-beds {
+  font-weight: 300;
+  font-size: 20px;
+}
 .reg-sc {
   padding-top: 60px;
   padding-bottom: 60px;
@@ -2220,6 +2225,9 @@ main {
   .apart-hero {
     padding: 0 20px;
   }
+  .apart-layouts-title {
+    font-size: 64px;
+  }
   .apart-img {
     width: 250px;
     min-width: 250px;
@@ -2236,15 +2244,6 @@ main {
   }
   .apart-text-info {
     font-size: 20px;
-  }
-  .gf-card {
-    flex-wrap: nowrap;
-    row-gap: 15px;
-    justify-content: space-between;
-    border-radius: 20px;
-  }
-  .gf-text {
-    display: none;
   }
   .amen-card {
     flex-direction: column;
@@ -2304,12 +2303,6 @@ main {
   .all-amen-btn {
     font-size: 14px;
   }
-  .gf-badge-text {
-    font-size: 12px;
-  }
-  .gf-rating-nb {
-    font-size: 18px;
-  }
 }
 @media (max-width: 479px) {
   .apart-title,
@@ -2338,8 +2331,18 @@ main {
     row-gap: 30px;
     padding-top: 15px;
   }
-  .apart-text-title {
+  .apart-text-title,
+  .apart-layouts-title {
     font-size: 60px;
+  }
+  .apart-layout-name {
+    font-size: 28px;
+  }
+  .apart-layout-beds {
+    font-size: 16px;
+  }
+  .two-col > .block.apart-video {
+    width: min(100%, calc(75vh * 9 / 16));
   }
   .two-col {
     flex-wrap: wrap;
@@ -2353,12 +2356,6 @@ main {
   }
   .apart-cards {
     row-gap: 25px;
-  }
-  .gf-card {
-    margin-top: 20px;
-  }
-  .gf-badge-text {
-    font-size: 14px;
   }
   .amen-item-text {
     font-size: 12px;
@@ -3544,5 +3541,214 @@ main {
 @media (max-width: 479px) {
   .exp-imgs-wrap {
     width: 100%;
+  }
+}
+
+/* ---------- reviews ---------- */
+.reviews-hero {
+  position: relative;
+}
+.reviews-hero .page-title {
+  font-size: 72px;
+  line-height: 1.05;
+  text-transform: none;
+  text-wrap: balance;
+  white-space: normal;
+  text-align: center;
+  width: 1000px;
+  max-width: 100%;
+}
+.rv-summary {
+  position: relative;
+  z-index: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 30px;
+  width: auto;
+  padding-bottom: 70px;
+}
+.rv-score {
+  font-family: var(--font-serif);
+  font-size: 96px;
+  line-height: 1;
+}
+.rv-score-info {
+  width: auto;
+  row-gap: 8px;
+  border-left: 1px solid var(--line-21);
+  padding-left: 30px;
+}
+.rv-stars {
+  display: flex;
+  column-gap: 2px;
+  color: var(--brand);
+}
+.rv-stars--lg svg {
+  width: 22px;
+  height: 22px;
+}
+.rv-score-label {
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: #525252;
+}
+.rv-google {
+  font-size: 14px;
+  font-weight: 500;
+}
+.rv-sc {
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 120px;
+  row-gap: 60px;
+}
+/* three columns of natural-height cards; each column is parallaxed by ScrollTrigger */
+.rv-grid {
+  display: flex;
+  align-items: flex-start;
+  column-gap: 10px;
+  width: 100%;
+  padding: 60px 0;
+}
+.rv-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  will-change: transform;
+}
+.rv-card {
+  display: flex;
+  flex-direction: column;
+  row-gap: 22px;
+  padding: 35px;
+  background: var(--card, var(--cream));
+  border: 2px solid var(--line-08);
+  border-radius: 25px;
+  box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.25);
+  transform: rotate(var(--tilt, 0deg));
+  transition: border-color 0.4s ease;
+}
+.rv-card:hover {
+  border-color: var(--line-21);
+}
+.rv-quote {
+  margin: 0;
+}
+.rv-quote p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.65;
+}
+.rv-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  column-gap: 15px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-12);
+}
+.rv-name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.rv-sub {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-top: 4px;
+}
+.rv-source {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #525252;
+  border: 1px solid var(--line-12);
+  border-radius: 50px;
+  padding: 4px 10px;
+}
+.rv-cta {
+  padding-bottom: 0;
+}
+.gf-reviews-btn {
+  display: block;
+}
+@media (max-width: 1366px) {
+  .reviews-hero .page-title {
+    font-size: 64px;
+  }
+}
+@media (max-width: 991px) {
+  .reviews-hero .page-title {
+    font-size: 52px;
+  }
+  /* tablets and down: the columns flatten into CSS masonry, no parallax */
+  .rv-grid {
+    display: block;
+    columns: 2;
+    column-gap: 10px;
+    padding: 20px 0 0;
+  }
+  .rv-col {
+    display: contents;
+  }
+  .rv-card {
+    break-inside: avoid;
+    margin-bottom: 10px;
+    padding: 30px;
+  }
+  .rv-score {
+    font-size: 80px;
+  }
+}
+@media (max-width: 767px) {
+  .reviews-hero .page-title {
+    font-size: 42px;
+  }
+  .rv-grid {
+    columns: 1;
+  }
+  .rv-summary {
+    column-gap: 20px;
+    padding-bottom: 50px;
+  }
+  .rv-score-info {
+    padding-left: 20px;
+  }
+  .rv-score {
+    font-size: 64px;
+  }
+  /* room for the stool under the button */
+  .rv-sc {
+    padding-bottom: 190px;
+  }
+  .rv-sc .hero-deco-chair {
+    display: block; /* the home hero hides it on phones; here there is room for it */
+    width: 120px;
+    bottom: 20px;
+  }
+}
+@media (max-width: 479px) {
+  .reviews-hero .page-title {
+    font-size: 34px;
+  }
+  .rv-card {
+    padding: 25px;
+  }
+  .rv-quote p {
+    font-size: 14px;
+  }
+  .rv-meta {
+    flex-wrap: wrap;
+    row-gap: 10px;
   }
 }
