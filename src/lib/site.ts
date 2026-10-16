@@ -19,7 +19,7 @@ export const site = {
   description:
     "Lagom Airbnb (officially Lagom Premium Apartment Pvt. Ltd.) is a highly rated, highly aesthetic luxury service apartment complex in Kathmandu, Nepal, near the Swayambhunath Stupa (Monkey Temple). Pinterest-like wabi-sabi interiors, smart-tech rooms and an independent, upscale stay.",
   keywords: ["Lagom", "Lagom Premium Apartment", "Kathmandu Airbnb", "Kathmandu apartment", "Swayambhunath", "service apartment Kathmandu", "luxury stay Nepal", "wabi sabi", "presidential suite Kathmandu"],
-  email: "hello@lagom-stay.com", // TODO
+  email: "lagomairbnb@gmail.com",
   phone: "+977 98 0000 0000", // TODO
   /** WhatsApp Business (@lagomairbnb) number, digits only in international format. TODO */
   whatsapp: "9779800000000",
@@ -107,7 +107,8 @@ const base = {
   curtains: { icon: "curtains", label: "Automatic curtains" },
   tv: { icon: "flat-tv", label: "Smart TV" },
   laundry: { icon: "washing-machine", label: "Laundry service" },
-  shuttle: { icon: "car", label: "Free airport shuttle" },
+  shuttle: { icon: "plane", label: "Free airport pick-up" },
+  travel: { icon: "compass", label: "Travel assistance" },
   parking: { icon: "parking", label: "Parking included" },
   work: { icon: "laptop", label: "Laptop workspace" },
   water: { icon: "bottle", label: "Free bottled water" },
@@ -139,10 +140,10 @@ export const rooms: Room[] = [
       ],
       right: [
         "Designed for one or two, it keeps the essentials close: hot water, air conditioning, fast Wi-Fi and a kettle for tea at any hour.",
-        "Housekeeping, luggage storage and our airport shuttle are all a message away.",
+        "Housekeeping, luggage storage and our free airport pick-up are all a message away.",
       ],
     },
-    amenities: [base.ac, base.hot, base.wifi, base.balcony, base.kettle, base.touch, base.tv, base.laundry, base.shuttle, base.parking],
+    amenities: [base.shuttle, base.travel, base.ac, base.hot, base.wifi, base.balcony, base.kettle, base.touch, base.tv, base.laundry, base.parking],
     images: { hero: "lounge", main: "living", grid: ["bathroom", "kitchen", "living-portrait", "lounge"] },
     photoGroups: [
       { id: "bedroom", title: "bedroom.", text: "Warm plaster, linen and low light. A room that asks you to slow down.", images: ["lounge", "living-portrait"] },
@@ -176,7 +177,7 @@ export const rooms: Room[] = [
         "The balcony catches the afternoon light; the stupa is a short walk away.",
       ],
     },
-    amenities: [base.ac, base.hot, base.kitchen, base.kitchenette, base.wifi, base.balcony, base.touch, base.tv, base.work, base.laundry],
+    amenities: [base.shuttle, base.travel, base.ac, base.hot, base.kitchen, base.kitchenette, base.wifi, base.balcony, base.touch, base.tv, base.work, base.laundry],
     images: { hero: "living", main: "living-portrait", grid: ["kitchen", "lounge", "bathroom", "living"] },
     photoGroups: [
       { id: "living", title: "living.", text: "A sunken lounge wrapped in textured plaster, with a round oak table and a soft rug.", images: ["living", "living-portrait", "lounge"] },
@@ -210,7 +211,7 @@ export const rooms: Room[] = [
         "Laundry, housekeeping and tour assistance are available on request.",
       ],
     },
-    amenities: [base.ac, base.hot, base.kitchen, base.kitchenette, base.wifi, base.touch, base.tv, base.work, base.laundry, base.parking],
+    amenities: [base.shuttle, base.travel, base.ac, base.hot, base.kitchen, base.kitchenette, base.wifi, base.touch, base.tv, base.work, base.laundry, base.parking],
     images: { hero: "kitchen", main: "lounge", grid: ["living", "bathroom", "living-portrait", "kitchen"] },
     photoGroups: [
       { id: "living", title: "living.", text: "Low seating, warm light and room to spread out.", images: ["lounge", "living", "living-portrait"] },
@@ -244,7 +245,7 @@ export const rooms: Room[] = [
         "Sleeps two in comfort and up to four for families or small groups.",
       ],
     },
-    amenities: [base.ac, base.tub, base.hot, base.kitchen, base.kitchenette, base.wifi, base.balcony, base.touch, base.tv, base.laundry],
+    amenities: [base.shuttle, base.travel, base.ac, base.tub, base.hot, base.kitchen, base.kitchenette, base.wifi, base.balcony, base.touch, base.tv, base.laundry],
     images: { hero: "bathroom", main: "lounge", grid: ["living", "kitchen", "living-portrait", "bathroom"] },
     photoGroups: [
       { id: "living", title: "living.", text: "The hall: sunken seating and a round table for four.", images: ["living", "lounge", "living-portrait"] },
@@ -280,7 +281,7 @@ export const rooms: Room[] = [
         "Ideal for couples, and comfortable for up to four.",
       ],
     },
-    amenities: [base.ac, base.tub, base.hot, base.kitchen, base.kitchenette, base.wifi, base.balcony, base.curtains, base.touch, base.tv],
+    amenities: [base.shuttle, base.travel, base.ac, base.tub, base.hot, base.kitchen, base.kitchenette, base.wifi, base.balcony, base.curtains, base.touch, base.tv],
     images: { hero: "bathroom", main: "lounge", grid: ["bathroom", "living", "kitchen", "living-portrait"] },
     photoGroups: [
       { id: "bath", title: "bath.", text: "A freestanding tub on a bed of white pebbles, brass fittings, palms and three bamboo pendants.", images: ["bathroom", "lounge"] },
@@ -309,16 +310,16 @@ export const home = {
   gallery: { title: "rooms." },
   amenities: {
     title: "amenities.",
-    text: "Modern comfort in every unit, with the small smart touches that make a stay effortless.",
+    text: "Free airport pick-up when you land, travel assistance with tours and tickets, and modern comfort in every unit.",
     items: [
       base.shuttle,
-      base.parking,
+      base.travel,
       { icon: "fast-wifi", label: "Free Wi-Fi" },
       base.ac,
       base.kitchen,
-      { icon: "bathtub", label: "Bathtub in select units" },
       { icon: "touch-switch", label: "Smart touch switches" },
       base.laundry,
+      base.parking,
     ] as Amenity[],
   },
   cta: "Book Now",
@@ -328,9 +329,10 @@ export const home = {
 export const allAmenities: { group: string; items: Amenity[] }[] = [
   { group: "Internet", items: [{ icon: "fast-wifi", label: "Free Wi-Fi in the apartment and public areas" }] },
   {
-    group: "Parking and transportation",
+    group: "Airport and travel",
     items: [
-      { icon: "car", label: "Free airport pick-up shuttle, 10:00 AM to 10:30 PM on request" },
+      { icon: "plane", label: "Free airport pick-up, 10:00 AM to 10:30 PM on request" },
+      { icon: "compass", label: "Travel assistance with tours and tickets" },
       { icon: "parking", label: "Free uncovered self parking on site (max 2 spaces per unit)" },
     ],
   },
@@ -379,7 +381,6 @@ export const allAmenities: { group: string; items: Amenity[] }[] = [
       { icon: "bottle", label: "Free bottled water" },
       { icon: "cleaning-products", label: "Housekeeping (on request)" },
       { icon: "luggage", label: "Luggage storage" },
-      { icon: "self-check-in", label: "Tour and ticket assistance" },
     ],
   },
   {
@@ -398,39 +399,7 @@ export const guestFavorite = {
   text: "One of the most loved homes on Airbnb, according to guests",
 };
 
-export const experiences = {
-  title: "experiences",
-  metaDescription:
-    "Discover Kathmandu from Lagom: the Swayambhunath Stupa a short walk away, Thamel and the Durbar Squares, Newari food and the valley's slow afternoons.",
-  intro: "Kathmandu, a valley ringed by hills and temples, where the prayer flags of Swayambhunath fly a short walk from your door.",
-  sections: [
-    {
-      title: "the stupa.",
-      paragraphs: [
-        "Swayambhunath, the Monkey Temple, sits on its hill just above Lagom. Climb the 365 steps at dawn, when the monks circle the stupa and the whole valley opens below you.",
-        "Prayer wheels, butter lamps, the painted eyes of the Buddha looking out in four directions, and the monkeys that give the place its nickname: it is the view every guest remembers.",
-      ],
-      images: ["s1", "s3"] as ImageKey[],
-    },
-    {
-      title: "the city.",
-      paragraphs: [
-        "Thamel's lanes of bookshops, bakeries and trekking stores are a short ride away, and beyond them the carved courtyards of Kathmandu Durbar Square and the old royal city of Patan.",
-        "Kathmandu is not only its past. Rooftop cafés, galleries and a lively music scene make the city a source of constant inspiration, and we are happy to plan your days with you.",
-      ],
-      images: ["s4", "s5"] as ImageKey[],
-    },
-    {
-      title: "the food.",
-      paragraphs: [
-        "Start with momo and dal bhat, then let us point you to the Newari kitchens of Kirtipur and Patan: choila, bara, yomari and a glass of local raksi.",
-        "Back at Lagom, your own kitchen is fully equipped for a slow breakfast, and the tea and coffee are on us.",
-      ],
-      images: ["lounge", "living"] as ImageKey[], // TODO: photos of local food
-    },
-  ],
-  banner: "s22" as ImageKey,
-};
+/** Experiences page content lives in ./experiences.ts */
 
 export const contact = {
   title: "Contact",

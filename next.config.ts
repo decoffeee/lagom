@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [390, 480, 768, 1024, 1280, 1440, 1920, 2560],
+    /** YouTube poster frames for the click-to-load embeds on /experiences. */
+    remotePatterns: [{ protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" }],
   },
   headers: async () => [
     {
