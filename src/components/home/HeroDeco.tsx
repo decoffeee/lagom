@@ -37,7 +37,7 @@ export function HeroDeco({ parts = ["light", "chair"] }: { parts?: DecoPart[] })
     // Idle: a slow pendulum swing once the lamps have settled.
     if (!reduce && lamp.length) {
       tl.add(() => {
-        gsap.fromTo(lamp, { rotation: -2.2, transformOrigin: "50% 0%" }, { rotation: 2.2, duration: 3.2, ease: "sine.inOut", yoyo: true, repeat: -1 });
+        gsap.fromTo(lamp, { rotation: -4.5, transformOrigin: "50% 0%" }, { rotation: 4.5, duration: 2.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
       }, 2.3);
     }
   });

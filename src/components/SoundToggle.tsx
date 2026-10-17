@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
-import { loaderState } from "@/lib/loader-state";
+import { soundState } from "@/lib/sound-state";
 
-const SRC = "/music/lofi-relaxing.m4a";
+const SRC = "/music/soothing-handpan.m4a";
 const VOLUME = 0.45;
 const STORAGE_KEY = "lagom-sound";
 const GESTURES = ["pointerdown", "keydown", "touchend"] as const;
@@ -12,16 +12,21 @@ const GESTURES = ["pointerdown", "keydown", "touchend"] as const;
 /**
  * Background music + the little equaliser toggle in the header.
  *
- * The track fades in as the loader lifts. Browsers block audible autoplay until the visitor
- * has interacted with the page, so when that first attempt is refused, it starts on the
- * first click / tap / key press instead. A visitor's "off" choice is remembered.
+ * The track starts when the visitor picks "enter with music" on the loader screen
+ * (that click is the user gesture browsers require for audible playback). Picking
+ * silence leaves it off; the toggle can switch it on or off at any point afterwards.
  * Lives in the header, which never remounts, so the music carries on across pages.
  */
 export function SoundToggle() {
   const audio = useRef<HTMLAudioElement | null>(null);
   const button = useRef<HTMLButtonElement>(null);
-  const wanted = useRef(true);
-  const [playing, setPlaying] = useState(false);
+  const wanted = useRef(false);
+  const [playing, setPlayingState] = useState(false);
+
+  const setPlaying = useCallback((on: boolean) => {
+    setPlayingState(on);
+    soundState.set({ playing: on });
+  }, []);
 
   const fade = useCallback((to: number, duration: number, onComplete?: () => void) => {
     const a = audio.current;
@@ -38,32 +43,35 @@ export function SoundToggle() {
         fade(VOLUME, fadeIn);
       });
     },
-    [fade],
+    [fade, setPlaying],
   );
 
   useEffect(() => {
-    try {
-      wanted.current = localStorage.getItem(STORAGE_KEY) !== "off";
-    } catch {}
-
     const a = new Audio(SRC);
     a.loop = true;
     a.preload = "none";
     a.volume = 0;
     audio.current = a;
 
+    const remember = (on: boolean) => {
+      wanted.current = on;
+      try {
+        localStorage.setItem(STORAGE_KEY, on ? "on" : "off");
+      } catch {}
+    };
+
+    // Fallback if a browser still refuses playback: start on the next tap / key press.
     const removeGestures = () => GESTURES.forEach((g) => window.removeEventListener(g, onGesture, true));
     const onGesture = (e: Event) => {
-      // a press on the toggle itself is handled by the toggle
       if (button.current?.contains(e.target as Node)) return removeGestures();
       if (!wanted.current) return removeGestures();
       play(2.5).then(removeGestures, () => {});
     };
-    const start = () => {
-      if (!wanted.current) return;
+    const offRequest = soundState.onRequest((on) => {
+      remember(on);
+      if (!on) return;
       play(2.5).catch(() => GESTURES.forEach((g) => window.addEventListener(g, onGesture, { capture: true, passive: true })));
-    };
-    const off = loaderState.onDone(start);
+    });
 
     // pause while the tab is in the background, resume when it comes back
     const onVisibility = () => {
@@ -73,7 +81,7 @@ export function SoundToggle() {
     document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      off();
+      offRequest();
       removeGestures();
       document.removeEventListener("visibilitychange", onVisibility);
       gsap.killTweensOf(a);
@@ -81,6 +89,7 @@ export function SoundToggle() {
       a.removeAttribute("src");
       a.load();
       audio.current = null;
+      soundState.set({ playing: false });
     };
   }, [play]);
 
@@ -98,7 +107,7 @@ export function SoundToggle() {
       setPlaying(false);
       fade(0, 0.6, () => a.pause());
     }
-  }, [playing, play, fade]);
+  }, [playing, play, fade, setPlaying]);
 
   return (
     <button
