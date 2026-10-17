@@ -73,12 +73,16 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#e8e4d9",
-  colorScheme: "light",
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${manrope.variable} ${melodrama.variable} ${plantagenet.variable}`}>
+      <head>
+        {/* Asks the Dark Reader extension not to restyle the site. */}
+        <meta name="darkreader-lock" />
+      </head>
       <body>
         <a className="skip-link" href="#content">
           Skip to main content

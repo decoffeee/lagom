@@ -14,6 +14,10 @@
   --font-sans: var(--font-manrope), "Manrope", -apple-system, system-ui, sans-serif;
   --font-serif: var(--font-melodrama), "Melodrama", Georgia, serif;
   --transition: all 0.2s ease;
+  /* Declaring dark support tells Chrome/Samsung "auto dark" not to invert the page.
+     body then locks everything to light ("only" forbids UA overrides), so native
+     controls stay light and nothing inside the page gets force-darkened. */
+  color-scheme: light dark;
 }
 
 *,
@@ -26,6 +30,9 @@ html {
   -webkit-text-size-adjust: 100%;
   background-color: var(--beige);
   scroll-behavior: auto;
+}
+body {
+  color-scheme: only light;
 }
 html.lenis,
 html.lenis body {
