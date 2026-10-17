@@ -41,7 +41,7 @@ export default function ReviewsPage() {
         </div>
         <div className="container cta-ct rv-cta">
           <div className="block" style={{ alignItems: "center" }}>
-            <AnysideButton href="/book/">Book Now</AnysideButton>
+            <AnysideButton href="/contact/">Book Now</AnysideButton>
           </div>
         </div>
       </section>

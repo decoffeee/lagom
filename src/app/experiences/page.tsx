@@ -256,7 +256,7 @@ export default function ExperiencesPage() {
         </div>
         <div className="container cta-ct exp-cta">
           <div className="block" style={{ alignItems: "center" }}>
-            <AnysideButton href="/book/">Book Now</AnysideButton>
+            <AnysideButton href="/contact/">Book Now</AnysideButton>
           </div>
         </div>
       </section>

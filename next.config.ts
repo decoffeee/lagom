@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   trailingSlash: true,
   poweredByHeader: false,
+  // Reservations are made through the form on the contact page.
+  redirects: async () => [{ source: "/book", destination: "/contact/", permanent: false }],
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [390, 480, 768, 1024, 1280, 1440, 1920, 2560],

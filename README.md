@@ -22,12 +22,11 @@ URLs, the sitemap, robots.txt and Open Graph tags).
 | All copy, contact details, nav, amenities, specs | `src/lib/site.ts` (everything marked `TODO` is a placeholder) |
 | Photos (static imports, alt text) | `src/lib/images.ts`, `src/images/` |
 | Global styles (values copied from the reference) | `src/app/globals.css` |
-| Pages | `src/app/` → `/`, `/rooms/[slug]/` (one per room), `/experiences/`, `/contact/`, `/book/`, `/privacy-policy/` |
+| Pages | `src/app/` → `/`, `/rooms/[slug]/` (one per room), `/experiences/`, `/contact/` (also the booking page; `/book/` redirects here), `/privacy-policy/` |
 | Rooms, amenities, booking-platform links | `rooms`, `allAmenities`, `site.platforms` in `src/lib/site.ts` |
 | Floating WhatsApp button | `src/components/WhatsAppFloat.tsx` (number + text in `site.ts`) |
 | Loader, header + off-canvas menu, footer, cursor, smooth scroll | `src/components/` |
 | Home sections / room page sections / forms | `src/components/home`, `src/components/room`, `src/components/forms` |
-| Contact + booking server actions | `src/app/actions.ts` |
 | Fonts (Manrope, Melodrama) | `src/fonts/`, loaded with `next/font/local` |
 
 ## Animations
@@ -39,7 +38,7 @@ URLs, the sitemap, robots.txt and Open Graph tags).
 - **Off-canvas menu**: GSAP timeline (drops from the top with rounded corners, titles stagger in, image column loops).
 - **Home**: hero text rises after the loader; the hero photo un-folds from a 300 px arch to full width on scroll;
   the page background scrubs beige → black for the gallery and back for amenities; "deco." splits into characters.
-- **Rooms / experiences / contact / book**: per-page GSAP load timelines (`useLoadTimeline`), parallax images.
+- **Rooms / experiences / contact**: per-page GSAP load timelines (`useLoadTimeline`), parallax images.
 - Hover effects: swap-titles (text slides up), "anyside" button (circle grows from the pointer), pill cards.
 
 ## SEO
@@ -53,8 +52,9 @@ URLs, the sitemap, robots.txt and Open Graph tags).
 
 ## Forms
 
-Both forms post to server actions with validation and a honeypot. With `RESEND_API_KEY` (and optional
-`CONTACT_TO` / `CONTACT_FROM`) set, submissions are emailed through Resend; otherwise they are logged on the server.
+The reservation form lives on `/contact/`: room, check-in, guests, nights, contact details and an optional message.
+On submit it opens WhatsApp with the request pre-filled (number in `site.whatsapp`), so it needs no server or email
+setup. It has a honeypot field against bots.
 
 ## Before launch (placeholders)
 

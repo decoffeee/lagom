@@ -56,14 +56,14 @@ export const nav = {
   /** Accordion item (Nueve: RESIDENCES → Classic / Mini / Village) */
   rooms: { label: "ROOMS" },
   secondary: [
-    { label: "book now", href: "/book/" },
+    { label: "book now", href: "/contact/" },
     { label: "privacy", href: "/privacy-policy/" },
     { label: "cookies", href: "/privacy-policy/#cookies" },
   ] satisfies NavItem[],
   footer: [
     { label: "experiences", href: "/experiences/" },
     { label: "reviews", href: "/reviews/" },
-    { label: "book now", href: "/book/" },
+    { label: "book now", href: "/contact/" },
     { label: "contact", href: "/contact/" },
     { label: "privacy", href: "/privacy-policy/" },
     { label: "cookies", href: "/privacy-policy/#cookies" },
@@ -417,16 +417,12 @@ export const contact = {
   title: "Contact",
   metaDescription: "Contact Lagom Premium Apartment in Kathmandu with any question about your stay. Send us a message on WhatsApp and we will reply as soon as possible.",
   intro: "Contact us with any questions. We are here to help you make your stay unforgettable.",
-  consent: "I agree to provide the above information for communication purposes.",
   submit: "Send Message",
 };
 
+/** Reservation fields used by the form on the contact page. */
 export const book = {
-  title: "Book",
-  metaDescription: "Send a reservation request for one of Lagom's rooms in Kathmandu: Deluxe, Studio, 1BK, 2BHK or the Presidential Suite. We will confirm availability.",
-  intro: "The reservation request is not considered completed, we will contact you for acceptance.",
   consent: "I agree to provide the above information for the purposes of the reservation.",
-  submit: "Send Request",
   options: rooms.map((r) => r.kind),
   maxGuests: 4,
 };

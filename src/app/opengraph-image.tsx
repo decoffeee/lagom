@@ -8,9 +8,9 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpenGraphImage() {
-  const [manrope, plantagenet] = await Promise.all([
+  const [manrope, melodrama] = await Promise.all([
     readFile(join(process.cwd(), "src/fonts/Manrope-Bold.ttf")),
-    readFile(join(process.cwd(), "src/fonts/PlantagenetCherokee.ttf")),
+    readFile(join(process.cwd(), "src/fonts/Melodrama-Light.woff")),
   ]);
   return new ImageResponse(
     (
@@ -21,7 +21,7 @@ export default async function OpenGraphImage() {
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontFamily: "Manrope", fontWeight: 700, fontSize: 88, letterSpacing: -5, lineHeight: 1 }}>there is no place like</div>
-          <div style={{ fontFamily: "Plantagenet", fontWeight: 400, fontSize: 190, lineHeight: 0.95, marginTop: 10, fontStyle: "italic" }}>home.</div>
+          <div style={{ fontFamily: "Melodrama", fontWeight: 300, fontSize: 190, lineHeight: 0.95, marginTop: 10, fontStyle: "italic" }}>home.</div>
         </div>
         <div style={{ fontFamily: "Manrope", fontSize: 24, opacity: 0.7 }}>{site.tagline}</div>
       </div>
@@ -30,7 +30,7 @@ export default async function OpenGraphImage() {
       ...size,
       fonts: [
         { name: "Manrope", data: manrope, weight: 700, style: "normal" },
-        { name: "Plantagenet", data: plantagenet, weight: 400, style: "normal" },
+        { name: "Melodrama", data: melodrama, weight: 300, style: "normal" },
       ],
     },
   );

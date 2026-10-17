@@ -21,7 +21,7 @@ export function Amenities() {
       </div>
       <div className="container cta-ct">
         <div className="block" style={{ alignItems: "center" }}>
-          <AnysideButton href="/book/">{home.cta}</AnysideButton>
+          <AnysideButton href="/contact/">{home.cta}</AnysideButton>
         </div>
       </div>
     </section>

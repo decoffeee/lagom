@@ -3,11 +3,10 @@
 This is a Next.js 16 app. It needs a host that runs **Node.js**. A plain static host (GitHub Pages, S3, shared
 Apache hosting) will not work, because these features need a server:
 
-- **Booking form** (`/book/`): a server action that emails each request (see [Email](#email-for-booking-requests)).
 - **Image optimization**: photos are resized and converted to AVIF or WebP on demand.
 - **Generated files**: `sitemap.xml`, the Open Graph and Twitter share images, and the favicon.
 
-The contact form does not need the server. It opens WhatsApp in the visitor's browser.
+The reservation form on `/contact/` does not need the server. It opens WhatsApp in the visitor's browser.
 
 ## Requirements
 
@@ -25,9 +24,6 @@ Copy `.env.example` to `.env.local` on a server, or enter the same keys in your 
 | Variable | Required | What it does |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | **Yes** | The public address with `https://` and no trailing slash, e.g. `https://lagom-stay.com`. Used for canonical links, the sitemap, robots.txt and share previews. |
-| `RESEND_API_KEY` | **Yes, for bookings** | API key from [resend.com](https://resend.com). Without it, booking requests are **only written to the server log and nobody is emailed**. |
-| `CONTACT_TO` | No | Inbox that receives booking requests. Defaults to `lagomairbnb@gmail.com`. |
-| `CONTACT_FROM` | Recommended | Sender address, e.g. `Lagom <bookings@lagom-stay.com>`. Its domain must be verified in Resend. |
 
 > **`NEXT_PUBLIC_SITE_URL` is fixed at build time.** If you change it, run the build again. Restarting is not enough.
 
@@ -161,31 +157,17 @@ CMD ["npm", "start"]
 
 ```bash
 docker build --build-arg NEXT_PUBLIC_SITE_URL=https://lagom-stay.com -t lagom .
-docker run -d -p 3000:3000 \
-  -e RESEND_API_KEY=... -e CONTACT_FROM="Lagom <bookings@lagom-stay.com>" \
-  --restart unless-stopped lagom
+docker run -d -p 3000:3000 --restart unless-stopped lagom
 ```
 
-`NEXT_PUBLIC_SITE_URL` must be passed as a **build argument**, because it is fixed at build time. The other
-variables are read at runtime.
-
-## Email for booking requests
-
-1. Create a free account at [resend.com](https://resend.com).
-2. Under **Domains**, add the site's domain and create the DNS records Resend shows you. Wait until the domain is
-   shown as *Verified*.
-3. Create an API key and set it as `RESEND_API_KEY`.
-4. Set `CONTACT_FROM` to an address on the verified domain, e.g. `Lagom <bookings@lagom-stay.com>`.
-
-Until a domain is verified, Resend only delivers to the email address of the Resend account owner.
+`NEXT_PUBLIC_SITE_URL` must be passed as a **build argument**, because it is fixed at build time.
 
 ## Check after every deploy
 
 - [ ] The home page, all five room pages (`/rooms/deluxe/`, `/rooms/studio/`, `/rooms/1bk/`, `/rooms/2bhk/`,
-      `/rooms/presidential-suite/`), `/experiences/`, `/reviews/`, `/book/` and `/contact/` load.
+      `/rooms/presidential-suite/`), `/experiences/`, `/reviews/` and `/contact/` load, and `/book/` redirects to `/contact/`.
 - [ ] Room photos appear, and the walkthrough video plays on a room page, including on an iPhone.
-- [ ] Send a test request from `/book/` and confirm it arrives in the `CONTACT_TO` inbox.
-- [ ] The contact form and the green WhatsApp button open a chat with +977 9708097322.
+- [ ] The reservation form on `/contact/` and the green WhatsApp button open a chat with +977 9708097322.
 - [ ] `https://<domain>/sitemap.xml` lists URLs on the real domain, not `localhost` or a preview address.
 - [ ] Pasting the domain into WhatsApp or Facebook shows the share preview image.
 
@@ -196,7 +178,6 @@ First launch only: add the domain to [Google Search Console](https://search.goog
 
 | Problem | Cause and fix |
 | --- | --- |
-| Booking form says "sent" but no email arrives | `RESEND_API_KEY` is missing (requests are only logged; check with `journalctl -u lagom`), or the `CONTACT_FROM` domain is not verified in Resend. |
 | Photos don't load (errors on `/_next/image`) | `sharp` is missing or was installed for another platform. Delete `node_modules` and run `npm ci` on the server. |
 | Sitemap or share previews show the wrong domain | `NEXT_PUBLIC_SITE_URL` was wrong when the site was built. Fix it, then build again and restart. |
 | Pages appear only after a long blank pause behind Nginx | Response buffering is on. Make sure `proxy_buffering off;` is in the Nginx config. |

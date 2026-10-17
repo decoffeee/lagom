@@ -25,12 +25,23 @@ const manrope = localFont({
   ],
 });
 
-/** The special (display) font. A single regular face: declared across the full weight range so
- *  headings set at 300/600/700 render the real glyphs instead of a faux-bolded copy. */
+const melodrama = localFont({
+  variable: "--font-melodrama",
+  display: "swap",
+  src: [
+    { path: "../fonts/Melodrama-Light.woff2", weight: "100 300", style: "normal" },
+    { path: "../fonts/Melodrama-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/Melodrama-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/Melodrama-Semibold.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/Melodrama-Bold.woff2", weight: "700 900", style: "normal" },
+  ],
+});
+
+/** Used only by the "Lagom Airbnb" title in the centre of the header. */
 const plantagenet = localFont({
   variable: "--font-plantagenet",
   display: "swap",
-  src: [{ path: "../fonts/PlantagenetCherokee.ttf", weight: "100 900", style: "normal" }],
+  src: [{ path: "../fonts/PlantagenetCherokee.ttf", weight: "400", style: "normal" }],
 });
 
 export const metadata: Metadata = {
@@ -67,7 +78,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${manrope.variable} ${plantagenet.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${melodrama.variable} ${plantagenet.variable}`}>
       <body>
         <a className="skip-link" href="#content">
           Skip to main content
